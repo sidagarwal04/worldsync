@@ -22,6 +22,8 @@
 
     <!-- Install prompt: shows on first load or refresh, mobile only -->
     <InstallPromptBanner />
+    <!-- Update prompt: shows when new version is available, installed app only -->
+    <UpdatePromptBanner />
   </div>
 </template>
 
@@ -29,14 +31,21 @@
 import { onMounted } from 'vue'
 import TimezoneConverter from '~/components/TimezoneConverter.vue'
 import InstallPromptBanner from '~/components/InstallPromptBanner.vue'
+import UpdatePromptBanner from '~/components/UpdatePromptBanner.vue'
 
 onMounted(() => {
-  // Register service worker for PWA
+  // Register service worker for PWA (updateViaCache: 'none' = always check for SW updates)
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-      .register('/sw.js')
+      .register('/sw.js', { updateViaCache: 'none' })
       .then((registration) => {
         console.log('Service Worker registered:', registration)
+        // Check for updates when app gains focus (e.g. user returns to tab)
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            registration.update()
+          }
+        })
       })
       .catch((error) => {
         console.log('Service Worker registration failed:', error)

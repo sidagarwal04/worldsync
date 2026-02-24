@@ -1,4 +1,5 @@
-const CACHE_NAME = 'tz-convert-v1'
+// Bump this version when deploying to trigger update prompt for installed users
+const CACHE_NAME = 'tz-convert-v2'
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
@@ -12,6 +13,7 @@ const URLS_TO_CACHE = [
 ]
 
 // Install event - cache all essential assets
+// Don't call skipWaiting() here - let the app prompt the user to update
 self.addEventListener('install', (event) => {
   console.log('[Service Worker] Installing...')
   event.waitUntil(
@@ -24,7 +26,6 @@ self.addEventListener('install', (event) => {
       })
     })
   )
-  self.skipWaiting()
 })
 
 // Activate event - clean up old caches
