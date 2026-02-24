@@ -1,4 +1,4 @@
-# WorldSync 🌍
+# SyncHorizon 🌍
 
 A modern Progressive Web App (PWA) for converting timezones with daylight savings time awareness. Built with Nuxt 4, Vue 3, and TypeScript.
 

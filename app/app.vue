@@ -3,7 +3,7 @@
     <header class="app-header">
       <div class="header-content">
         <h1 class="app-title">
-          <span class="logo">🌍</span> WorldSync
+          <span class="logo">🌍</span> SyncHorizon
         </h1>
         <p class="app-subtitle">Global timezone converter with daylight savings support</p>
       </div>
@@ -17,7 +17,7 @@
 
     <footer class="app-footer">
       <p class="footer-tagline">Powered by GenAI • Built with ❤️ for the world</p>
-      <p class="footer-credits">© 2026 WorldSync • <a href="https://meetsid.dev" target="_blank" rel="noopener noreferrer" class="footer-link">meetsid.dev</a> • Powered by Netlify</p>
+      <p class="footer-credits">© 2026 SyncHorizon • <a href="https://meetsid.dev" target="_blank" rel="noopener noreferrer" class="footer-link">meetsid.dev</a> • Powered by Netlify</p>
       <button v-if="installPromptReady" @click="installApp" class="install-button">
         📥 Install App
       </button>

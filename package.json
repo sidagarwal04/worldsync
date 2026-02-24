@@ -1,5 +1,5 @@
 {
-  "name": "worldsync",
+  "name": "sync-horizon",
   "type": "module",
   "private": true,
   "scripts": {

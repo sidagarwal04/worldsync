@@ -1,6 +1,6 @@
 {
-  "name": "WorldSync - Timezone Converter",
-  "short_name": "WorldSync",
+  "name": "SyncHorizon - Timezone Converter",
+  "short_name": "SyncHorizon",
   "description": "Convert timezones with daylight savings awareness and offline support",
   "start_url": "/",
   "scope": "/",

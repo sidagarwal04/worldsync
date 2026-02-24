@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   // App Configuration
   app: {
     head: {
-      title: 'WorldSync - Global Timezone Converter',
+      title: 'SyncHorizon - Global Timezone Converter',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
