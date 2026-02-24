@@ -87,11 +87,14 @@ const installApp = async () => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 32px 20px;
   text-align: center;
+  width: 100%;
 }
 
 .header-content {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 
 .app-title {
@@ -121,9 +124,14 @@ const installApp = async () => {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .converter-wrapper {
+  width: 100%;
+  max-width: 1000px;
   margin-bottom: 48px;
   animation: slideUp 0.6s ease-out;
 }
@@ -147,6 +155,7 @@ const installApp = async () => {
   text-align: center;
   font-size: 14px;
   opacity: 0.8;
+  width: 100%;
 }
 
 .app-footer p {
