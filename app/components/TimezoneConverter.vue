@@ -517,7 +517,7 @@ convertTimezone()
   background: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 8px 12px;
-  margin-top: 8px;
+  margin-top: 44px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
