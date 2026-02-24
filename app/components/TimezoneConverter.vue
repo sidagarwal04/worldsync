@@ -34,17 +34,26 @@
               placeholder="Search by name, abbr, or country..."
               class="search-input"
               aria-label="Search source timezone"
+              @focus="() => { sourceDropdownOpen = true; updateSourceDropdownPosition() }"
+              @blur="sourceDropdownOpen = false"
+              @keydown.esc="sourceDropdownOpen = false"
+              @input="updateSourceDropdownPosition"
+              autocomplete="off"
+              ref="sourceInputRef"
             />
-            <select 
-              v-model="sourceTimezone" 
-              @change="convertTimezone"
-              class="timezone-dropdown"
-              aria-label="Select source timezone"
-            >
-              <option v-for="tz in sourceSuggestions" :key="tz" :value="tz">
-                {{ getFormattedTimezone(tz) }} — {{ getCountry(tz) }}
-              </option>
-            </select>
+            <div v-if="sourceDropdownOpen && sourceSuggestions.length > 0" class="custom-dropdown" :style="sourceDropdownStyle">
+              <div
+                v-for="tz in sourceSuggestions"
+                :key="tz"
+                class="dropdown-option"
+                @mousedown.prevent
+                @click="selectSourceTimezone(tz)"
+              >
+                <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
+                <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
+                <div class="option-country">{{ getCountry(tz) }}</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -97,17 +106,26 @@
               placeholder="Search by name, abbr, or country..."
               class="search-input"
               aria-label="Search target timezone"
+              @focus="() => { targetDropdownOpen = true; updateTargetDropdownPosition() }"
+              @blur="targetDropdownOpen = false"
+              @keydown.esc="targetDropdownOpen = false"
+              @input="updateTargetDropdownPosition"
+              autocomplete="off"
+              ref="targetInputRef"
             />
-            <select 
-              v-model="targetTimezone" 
-              @change="convertTimezone"
-              class="timezone-dropdown"
-              aria-label="Select target timezone"
-            >
-              <option v-for="tz in targetSuggestions" :key="tz" :value="tz">
-                {{ getFormattedTimezone(tz) }} — {{ getCountry(tz) }}
-              </option>
-            </select>
+            <div v-if="targetDropdownOpen && targetSuggestions.length > 0" class="custom-dropdown" :style="targetDropdownStyle">
+              <div
+                v-for="tz in targetSuggestions"
+                :key="tz"
+                class="dropdown-option"
+                @mousedown.prevent
+                @click="selectTargetTimezone(tz)"
+              >
+                <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
+                <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
+                <div class="option-country">{{ getCountry(tz) }}</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -156,25 +174,32 @@ const {
 } = useTimezone()
 
 const sourceTime = ref('12:00')
-const sourceDate = ref(new Date().toISOString().split('T')[0])
+const sourceDate = ref(new Date().toISOString().substring(0, 10))
 const sourceTimezone = ref('America/New_York')
 const sourceTimezoneSearch = ref('')
-const sourceInfo = ref<TimezoneInfo | null>(null)
-
+const sourceInputRef = ref<HTMLInputElement | null>(null)
+const sourceDropdownOpen = ref(false)
+const sourceDropdownStyle = ref({ top: '0px', left: '0px', width: '0px' })
 const targetTime = ref('00:00')
-const targetDate = ref(new Date().toISOString().split('T')[0])
+const targetDate = ref(new Date().toISOString().substring(0, 10))
 const targetTimezone = ref('Asia/Kolkata')
 const targetTimezoneSearch = ref('')
+const targetInputRef = ref<HTMLInputElement | null>(null)
+const targetDropdownOpen = ref(false)
+const targetDropdownStyle = ref({ top: '0px', left: '0px', width: '0px' })
+const sourceInfo = ref<TimezoneInfo | null>(null)
 const targetInfo = ref<TimezoneInfo | null>(null)
 
 const sourceSuggestions = computed(() => {
-  if (!sourceTimezoneSearch.value) return getAllTimezones()
-  return searchTimezones(sourceTimezoneSearch.value)
+  const query = sourceTimezoneSearch.value.trim()
+  if (!query) return getAllTimezones()
+  return searchTimezones(query)
 })
 
 const targetSuggestions = computed(() => {
-  if (!targetTimezoneSearch.value) return getAllTimezones()
-  return searchTimezones(targetTimezoneSearch.value)
+  const query = targetTimezoneSearch.value.trim()
+  if (!query) return getAllTimezones()
+  return searchTimezones(query)
 })
 
 const commonPairs = computed(() => [
@@ -187,6 +212,20 @@ const commonPairs = computed(() => [
 
 const formatTimezoneOption = (tz: string) => {
   return `${getFormattedTimezone(tz)} — ${getCountry(tz)}`
+}
+
+const selectSourceTimezone = (tz: string) => {
+  sourceTimezone.value = tz
+  sourceTimezoneSearch.value = ''
+  sourceDropdownOpen.value = false
+  convertTimezone()
+}
+
+const selectTargetTimezone = (tz: string) => {
+  targetTimezone.value = tz
+  targetTimezoneSearch.value = ''
+  targetDropdownOpen.value = false
+  convertTimezone()
 }
 
 const convertTimezone = () => {
@@ -223,8 +262,30 @@ const selectPair = (fromTz: string, toTz: string) => {
   sourceTimezoneSearch.value = ''
   targetTimezoneSearch.value = ''
   sourceTime.value = '12:00'
-  sourceDate.value = new Date().toISOString().split('T')[0]
+  sourceDate.value = new Date().toISOString().substring(0, 10)
   convertTimezone()
+}
+
+const updateSourceDropdownPosition = () => {
+  if (sourceInputRef.value) {
+    const rect = sourceInputRef.value.getBoundingClientRect()
+    sourceDropdownStyle.value = {
+      top: (rect.bottom + 4) + 'px',
+      left: rect.left + 'px',
+      width: rect.width + 'px'
+    }
+  }
+}
+
+const updateTargetDropdownPosition = () => {
+  if (targetInputRef.value) {
+    const rect = targetInputRef.value.getBoundingClientRect()
+    targetDropdownStyle.value = {
+      top: (rect.bottom + 4) + 'px',
+      left: rect.left + 'px',
+      width: rect.width + 'px'
+    }
+  }
 }
 
 // Watch for timezone changes
@@ -250,6 +311,7 @@ convertTimezone()
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   color: white;
   max-width: 1000px;
+  overflow: visible;
 }
 
 .converter-header {
@@ -275,6 +337,7 @@ convertTimezone()
   align-items: flex-start;
   margin-bottom: 32px;
   flex-wrap: wrap;
+  overflow: visible;
 }
 
 .timezone-section {
@@ -284,6 +347,7 @@ convertTimezone()
   border-radius: 12px;
   padding: 20px;
   backdrop-filter: blur(10px);
+  overflow: visible;
 }
 
 .label {
@@ -331,19 +395,22 @@ convertTimezone()
 .timezone-select {
   position: relative;
   margin-bottom: 16px;
+  overflow: visible;
 }
 
 .timezone-select-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0;
+  position: relative;
+  z-index: 100;
 }
 
 .search-input {
   width: 100%;
   padding: 12px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   color: #333;
   font-size: 13px;
@@ -360,31 +427,53 @@ convertTimezone()
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
-.timezone-dropdown {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  background: rgba(255, 255, 255, 0.95);
+.custom-dropdown {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.97);
+  border: 2px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 50000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  min-width: 300px;
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-option:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.option-abbr {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 12px;
+  min-width: 60px;
+}
+
+.option-main {
+  flex: 1;
+  font-weight: 600;
   color: #333;
   font-size: 14px;
-  transition: all 0.3s ease;
-  min-height: auto;
-  max-height: none;
-  overflow-y: visible;
 }
 
-.timezone-dropdown:focus {
-  outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
-}
-
-.timezone-dropdown option {
-  padding: 8px;
-  background: white;
-  color: #333;
+.option-country {
+  font-size: 12px;
+  color: #666;
 }
 
 .timezone-info {

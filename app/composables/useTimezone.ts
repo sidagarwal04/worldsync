@@ -221,19 +221,76 @@ export const useTimezone = () => {
   const getAllTimezones = (): string[] => TIMEZONES
 
   /**
-   * Search timezones by name, abbreviation, or country
+   * Search timezones by name, abbreviation, or country - wholesome search
    */
   const searchTimezones = (query: string): string[] => {
-    const lowerQuery = query.toLowerCase()
-    return TIMEZONES.filter((tz) => {
+    const lowerQuery = query.toLowerCase().trim()
+    
+    if (!lowerQuery) return TIMEZONES
+
+    // Split abbreviation into components (e.g., "PST/PDT" -> ["PST", "PDT"])
+    const splitAbbrMatches = (abbr: string) => {
+      return abbr.toLowerCase().split('/').map(a => a.trim())
+    }
+
+    // Score and sort results
+    const scoredResults = TIMEZONES.map((tz) => {
       const tzData = TIMEZONES_DATA.find(t => t.tz === tz)
-      return (
-        tz.toLowerCase().includes(lowerQuery) ||
-        tzData?.abbr.toLowerCase().includes(lowerQuery) ||
-        tzData?.country?.toLowerCase().includes(lowerQuery) ||
-        getTimezoneInfo(tz).offset.includes(query)
-      )
-    })
+      let score = 0
+      let isMatch = false
+
+      // Exact abbreviation match (highest priority)
+      const abbrParts = splitAbbrMatches(tzData?.abbr || '')
+      if (abbrParts.includes(lowerQuery)) {
+        score += 1000
+        isMatch = true
+      }
+
+      // Partial abbreviation match
+      if (tzData?.abbr.toLowerCase().includes(lowerQuery)) {
+        score += 500
+        isMatch = true
+      }
+
+      // Timezone name match (starts with query)
+      if (tz.toLowerCase().startsWith(lowerQuery)) {
+        score += 300
+        isMatch = true
+      }
+
+      // Timezone name contains query
+      if (tz.toLowerCase().includes(lowerQuery)) {
+        score += 200
+        isMatch = true
+      }
+
+      // Display name match (city name)
+      const displayName = tz.split('/').pop()?.toLowerCase() || ''
+      if (displayName.includes(lowerQuery)) {
+        score += 250
+        isMatch = true
+      }
+
+      // Country match
+      if (tzData?.country?.toLowerCase().includes(lowerQuery)) {
+        score += 150
+        isMatch = true
+      }
+
+      // UTC offset match (optional - can be slow)
+      // Commenting out to improve search performance
+      // const info = getTimezoneInfo(tz)
+      // if (info.offset.includes(query)) {
+      //   score += 100
+      //   isMatch = true
+      // }
+
+      return { tz, score, isMatch }
+    }).filter(result => result.isMatch)
+      .sort((a, b) => b.score - a.score)
+      .map(result => result.tz)
+
+    return scoredResults.length > 0 ? scoredResults : TIMEZONES
   }
 
   /**
