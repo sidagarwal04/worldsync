@@ -5,7 +5,7 @@
         <h1 class="app-title">
           <span class="logo">🌍</span> WorldSync
         </h1>
-        <p class="app-subtitle">Global timezone converter</p>
+        <p class="app-subtitle">Global timezone converter with daylight savings support</p>
       </div>
     </header>
 
@@ -16,7 +16,8 @@
     </main>
 
     <footer class="app-footer">
-      <p>&copy; 2026 WorldSync. Built with Nuxt.js | PWA Enabled</p>
+      <p class="footer-tagline">Powered by GenAI • Built with ❤️ for the world</p>
+      <p class="footer-credits">© 2026 WorldSync • <a href="https://meetsid.dev" target="_blank" rel="noopener noreferrer" class="footer-link">meetsid.dev</a> • Powered by Netlify</p>
       <button v-if="installPromptReady" @click="installApp" class="install-button">
         📥 Install App
       </button>
@@ -85,7 +86,7 @@ const installApp = async () => {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 32px 20px;
+  padding: 20px 16px;
   text-align: center;
   width: 100%;
 }
@@ -120,7 +121,7 @@ const installApp = async () => {
 
 .app-main {
   flex: 1;
-  padding: 48px 20px;
+  padding: 20px 16px;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -132,7 +133,7 @@ const installApp = async () => {
 .converter-wrapper {
   width: 100%;
   max-width: 1000px;
-  margin-bottom: 48px;
+  margin-bottom: 16px;
   animation: slideUp 0.6s ease-out;
 }
 
@@ -151,15 +152,31 @@ const installApp = async () => {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 24px 20px;
+  padding: 20px;
   text-align: center;
   font-size: 14px;
-  opacity: 0.8;
+  opacity: 0.9;
   width: 100%;
 }
 
 .app-footer p {
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
+}
+
+.app-footer p:last-of-type {
+  margin-bottom: 12px;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  transition: opacity 0.2s ease;
+}
+
+.footer-link:hover {
+  opacity: 0.9;
+  border-bottom-color: white;
 }
 
 .install-button {
@@ -185,7 +202,7 @@ const installApp = async () => {
 
 @media (max-width: 768px) {
   .app-header {
-    padding: 24px 16px;
+    padding: 16px 12px;
   }
 
   .app-title {
@@ -202,15 +219,15 @@ const installApp = async () => {
   }
 
   .app-main {
-    padding: 32px 16px;
+    padding: 16px 12px;
   }
 
   .converter-wrapper {
-    margin-bottom: 32px;
+    margin-bottom: 12px;
   }
 
   .app-footer {
-    padding: 16px;
+    padding: 12px 16px;
     font-size: 12px;
   }
 }
@@ -221,7 +238,7 @@ const installApp = async () => {
   }
 
   .app-header {
-    padding: 20px 12px;
+    padding: 14px 12px;
   }
 
   .app-title {
@@ -234,11 +251,11 @@ const installApp = async () => {
   }
 
   .app-main {
-    padding: 24px 12px;
+    padding: 14px 12px;
   }
 
   .converter-wrapper {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
   }
 }
 </style>

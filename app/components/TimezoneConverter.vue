@@ -1,10 +1,5 @@
 <template>
   <div class="timezone-converter">
-    <div class="converter-header">
-      <h2>Timezone Converter</h2>
-      <p class="subtitle">With Daylight Savings Support</p>
-    </div>
-
     <div class="converters-row">
       <!-- Source Timezone -->
       <div class="timezone-section">
@@ -362,28 +357,11 @@ convertTimezone()
   overflow: visible;
 }
 
-.converter-header {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.converter-header h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-}
-
-.subtitle {
-  font-size: 14px;
-  opacity: 0.9;
-  margin: 0;
-}
-
 .converters-row {
   display: flex;
   gap: 24px;
   align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
   overflow: visible;
 }
@@ -393,7 +371,7 @@ convertTimezone()
   min-width: 280px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 20px;
+  padding: 24px;
   backdrop-filter: blur(10px);
   overflow: visible;
 }
@@ -402,7 +380,7 @@ convertTimezone()
   display: block;
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -410,7 +388,7 @@ convertTimezone()
 .timezone-input-group {
   display: flex;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .time-input,
@@ -442,7 +420,7 @@ convertTimezone()
 
 .timezone-select {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   overflow: visible;
 }
 
@@ -564,24 +542,24 @@ convertTimezone()
   font-size: 11px;
   font-weight: 600;
   color: #ffc107;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .swap-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 24px;
+  padding-top: 20px;
 }
 
 .swap-button {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   border: 2px solid white;
   color: white;
-  font-size: 28px;
+  font-size: 26px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -607,12 +585,12 @@ convertTimezone()
 .quick-pairs {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 20px;
+  padding: 22px;
   backdrop-filter: blur(10px);
 }
 
 .quick-pairs h3 {
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
@@ -622,7 +600,7 @@ convertTimezone()
 .pairs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .pair-button {
@@ -658,7 +636,7 @@ convertTimezone()
 
 @media (max-width: 768px) {
   .timezone-converter {
-    padding: 24px;
+    padding: 16px;
   }
 
   .converters-row {
@@ -670,13 +648,13 @@ convertTimezone()
   }
 
   .swap-section {
-    padding: 16px 0;
+    padding: 8px 0;
   }
 
   .swap-button {
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
   }
 
   .pairs-grid {
