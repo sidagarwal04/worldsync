@@ -3,7 +3,7 @@
     <header class="app-header">
       <div class="header-content">
         <h1 class="app-title">
-          <span class="logo">🌍</span> SyncHorizon
+          <img src="/icon-192.png" alt="" class="logo" width="48" height="48" /> SyncHorizon
         </h1>
         <p class="app-subtitle">Global timezone converter with daylight savings support</p>
       </div>
@@ -95,8 +95,11 @@ onMounted(() => {
 }
 
 .logo {
-  font-size: 48px;
+  width: 48px;
+  height: 48px;
   display: block;
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .app-subtitle {
@@ -176,7 +179,8 @@ onMounted(() => {
   }
 
   .logo {
-    font-size: 36px;
+    width: 36px;
+    height: 36px;
   }
 
   .app-subtitle {
@@ -214,7 +218,8 @@ onMounted(() => {
   }
 
   .logo {
-    font-size: 28px;
+    width: 28px;
+    height: 28px;
   }
 
   .app-subtitle {

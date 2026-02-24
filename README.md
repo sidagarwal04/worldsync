@@ -1,6 +1,8 @@
-# SyncHorizon 🌍
+# SyncHorizon
 
 A modern Progressive Web App (PWA) for converting timezones with daylight savings time awareness. Built with Nuxt 4, Vue 3, and TypeScript.
+
+**[Try it live →](https://sync-horizon.netlify.app/)**
 
 ## Features
 
@@ -36,7 +38,7 @@ npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the app.
+Visit `http://localhost:3000` to see the app, or [play with the live version](https://sync-horizon.netlify.app/) on Netlify.
 
 ### Production Build
 
