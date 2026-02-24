@@ -34,7 +34,7 @@
               placeholder="Search by name, abbr, or country..."
               class="search-input"
               aria-label="Search source timezone"
-              @focus="() => { sourceDropdownOpen = true; updateSourceDropdownPosition() }"
+              @focus="() => { sourceTimezoneSearch = ''; sourceDropdownOpen = true; updateSourceDropdownPosition() }"
               @input="updateSourceDropdownPosition"
               autocomplete="off"
               ref="sourceInputRef"
@@ -106,7 +106,7 @@
               placeholder="Search by name, abbr, or country..."
               class="search-input"
               aria-label="Search target timezone"
-              @focus="() => { targetDropdownOpen = true; updateTargetDropdownPosition() }"
+              @focus="() => { targetTimezoneSearch = ''; targetDropdownOpen = true; updateTargetDropdownPosition() }"
               @input="updateTargetDropdownPosition"
               autocomplete="off"
               ref="targetInputRef"
@@ -216,16 +216,21 @@ const formatTimezoneOption = (tz: string) => {
   return `${getFormattedTimezone(tz)} — ${getCountry(tz)}`
 }
 
+/** Same format as dropdown: [abbr] Location (abbr) — Country */
+const formatTimezoneForDisplay = (tz: string) => {
+  return `[${getAbbreviation(tz)}] ${getFormattedTimezone(tz)} — ${getCountry(tz)}`
+}
+
 const selectSourceTimezone = (tz: string) => {
   sourceTimezone.value = tz
-  sourceTimezoneSearch.value = getFormattedTimezone(tz)
+  sourceTimezoneSearch.value = formatTimezoneForDisplay(tz)
   sourceDropdownOpen.value = false
   convertTimezone()
 }
 
 const selectTargetTimezone = (tz: string) => {
   targetTimezone.value = tz
-  targetTimezoneSearch.value = getFormattedTimezone(tz)
+  targetTimezoneSearch.value = formatTimezoneForDisplay(tz)
   targetDropdownOpen.value = false
   convertTimezone()
 }
@@ -261,8 +266,8 @@ const swapTimezones = () => {
 const selectPair = (fromTz: string, toTz: string) => {
   sourceTimezone.value = fromTz
   targetTimezone.value = toTz
-  sourceTimezoneSearch.value = getFormattedTimezone(fromTz)
-  targetTimezoneSearch.value = getFormattedTimezone(toTz)
+  sourceTimezoneSearch.value = formatTimezoneForDisplay(fromTz)
+  targetTimezoneSearch.value = formatTimezoneForDisplay(toTz)
   sourceTime.value = '12:00'
   sourceDate.value = new Date().toISOString().substring(0, 10)
   convertTimezone()
@@ -339,6 +344,8 @@ watch(targetTimezone, () => {
 // Initialize
 sourceInfo.value = getTimezoneInfo(sourceTimezone.value)
 targetInfo.value = getTimezoneInfo(targetTimezone.value)
+sourceTimezoneSearch.value = formatTimezoneForDisplay(sourceTimezone.value)
+targetTimezoneSearch.value = formatTimezoneForDisplay(targetTimezone.value)
 convertTimezone()
 </script>
 
