@@ -72,4 +72,4 @@ npm run preview
 
 ---
 
-**Built with ❤️ as a global solution for timezone conversion**
+**Built with ❤️ as a global solution for timezone conversion** • [meetsid.dev](https://meetsid.dev)
