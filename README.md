@@ -1,6 +1,6 @@
 # WorldSync 🌍
 
-A modern Progressive Web App (PWA) for converting timezones with daylight savings time awareness. Built with Nuxt.js, Vue 3, and TypeScript.
+A modern Progressive Web App (PWA) for converting timezones with daylight savings time awareness. Built with Nuxt 4, Vue 3, and TypeScript.
 
 ## Features
 
@@ -13,7 +13,7 @@ A modern Progressive Web App (PWA) for converting timezones with daylight saving
 
 ## Tech Stack
 
-- **Framework**: Nuxt 3 with Vue 3
+- **Framework**: Nuxt 4 with Vue 3
 - **Language**: TypeScript
 - **Styling**: Scoped CSS with modern gradients and animations
 - **State Management**: Vue Composition API with Composables
