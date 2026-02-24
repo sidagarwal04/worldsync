@@ -4,6 +4,9 @@ const URLS_TO_CACHE = [
   '/index.html',
   '/favicon.ico',
   '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/apple-touch-icon.png',
 ]
 
 // Install event - cache all essential assets

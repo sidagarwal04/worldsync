@@ -11,7 +11,9 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'description', content: 'Convert timezones with daylight savings awareness' },
-        { name: 'theme-color', content: '#3b82f6' },
+        { name: 'theme-color', content: '#667eea' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
       ],
       link: [
         { rel: 'icon', href: '/favicon.ico' },

@@ -18,28 +18,19 @@
     <footer class="app-footer">
       <p class="footer-tagline">Powered by GenAI • Built with ❤️ for the world</p>
       <p class="footer-credits">© 2026 SyncHorizon • <a href="https://meetsid.dev" target="_blank" rel="noopener noreferrer" class="footer-link">meetsid.dev</a> • Powered by Netlify</p>
-      <button v-if="installPromptReady" @click="installApp" class="install-button">
-        📥 Install App
-      </button>
     </footer>
+
+    <!-- Install prompt: shows on first load or refresh, mobile only -->
+    <InstallPromptBanner />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import TimezoneConverter from '~/components/TimezoneConverter.vue'
-
-const installPromptReady = ref(false)
-let deferredPrompt: any = null
+import InstallPromptBanner from '~/components/InstallPromptBanner.vue'
 
 onMounted(() => {
-  // Listen for install prompt
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault()
-    deferredPrompt = e
-    installPromptReady.value = true
-  })
-
   // Register service worker for PWA
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
@@ -51,23 +42,7 @@ onMounted(() => {
         console.log('Service Worker registration failed:', error)
       })
   }
-
-  // Add to home screen prompt
-  window.addEventListener('appinstalled', () => {
-    console.log('App installed successfully')
-    installPromptReady.value = false
-  })
 })
-
-const installApp = async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt()
-    const { outcome } = await deferredPrompt.userChoice
-    console.log(`User response to the install prompt: ${outcome}`)
-    deferredPrompt = null
-    installPromptReady.value = false
-  }
-}
 </script>
 
 <style scoped>
@@ -181,27 +156,6 @@ const installApp = async () => {
   border-bottom-color: white;
 }
 
-.install-button {
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-
-.install-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.install-button:active {
-  transform: translateY(0);
-}
-
 @media (max-width: 768px) {
   .app-header {
     padding: 16px 12px;
@@ -232,11 +186,6 @@ const installApp = async () => {
   .app-footer {
     padding: 12px 16px;
     font-size: 12px;
-  }
-
-  .install-button {
-    padding: 12px 24px;
-    min-height: 44px;
   }
 }
 
